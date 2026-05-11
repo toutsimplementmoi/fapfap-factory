@@ -1,0 +1,1178 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FapFap Factory 🏭</title>
+<link href="https://fonts.googleapis.com/css2?family=Black+Ops+One&family=Rajdhani:wght@400;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0f;
+    --panel: #11111a;
+    --border: #1e1e30;
+    --accent: #ff3c6e;
+    --accent2: #ffcc00;
+    --accent3: #00e5ff;
+    --text: #e0e0f0;
+    --muted: #5a5a7a;
+    --glow: rgba(255,60,110,0.25);
+    --glow2: rgba(255,204,0,0.2);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Rajdhani', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* GRID BACKGROUND */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255,60,110,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,60,110,0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* HEADER */
+  header {
+    position: relative;
+    text-align: center;
+    padding: 40px 20px 30px;
+    border-bottom: 1px solid var(--border);
+    background: linear-gradient(180deg, rgba(255,60,110,0.08) 0%, transparent 100%);
+  }
+
+  .logo {
+    font-family: 'Black Ops One', cursive;
+    font-size: clamp(2.5rem, 8vw, 5rem);
+    letter-spacing: 4px;
+    color: var(--accent);
+    text-shadow: 0 0 30px var(--accent), 0 0 60px rgba(255,60,110,0.4);
+    animation: flicker 4s infinite;
+  }
+
+  .logo span {
+    color: var(--accent2);
+    text-shadow: 0 0 20px var(--accent2);
+  }
+
+  .tagline {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.85rem;
+    color: var(--muted);
+    letter-spacing: 6px;
+    text-transform: uppercase;
+    margin-top: 6px;
+  }
+
+  .badges {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 14px;
+    flex-wrap: wrap;
+  }
+
+  .badge {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.65rem;
+    padding: 3px 10px;
+    border: 1px solid;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    border-radius: 2px;
+  }
+  .badge.red { border-color: var(--accent); color: var(--accent); }
+  .badge.yellow { border-color: var(--accent2); color: var(--accent2); }
+  .badge.cyan { border-color: var(--accent3); color: var(--accent3); }
+
+  @keyframes flicker {
+    0%,96%,100% { opacity: 1; }
+    97% { opacity: 0.85; }
+    98% { opacity: 1; }
+    99% { opacity: 0.75; }
+  }
+
+  /* MAIN LAYOUT */
+  main {
+    position: relative;
+    z-index: 1;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 30px 20px 60px;
+  }
+
+  /* TABS */
+  .tabs {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 30px;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 0;
+  }
+
+  .tab-btn {
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 700;
+    font-size: 0.95rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 10px 22px;
+    border: none;
+    background: transparent;
+    color: var(--muted);
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s;
+    position: relative;
+    bottom: -1px;
+  }
+  .tab-btn:hover { color: var(--text); }
+  .tab-btn.active {
+    color: var(--accent);
+    border-bottom-color: var(--accent);
+    text-shadow: 0 0 10px var(--accent);
+  }
+
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+
+  /* SECTIONS */
+  .section-title {
+    font-family: 'Black Ops One', cursive;
+    font-size: 1.1rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--accent2);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .section-title::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, var(--border), transparent);
+  }
+
+  /* SUBMIT FORM */
+  .form-card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 28px;
+    margin-bottom: 30px;
+    position: relative;
+    overflow: hidden;
+  }
+  .form-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent), var(--accent2), var(--accent3));
+  }
+
+  .form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  @media(max-width: 600px) { .form-grid { grid-template-columns: 1fr; } }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .form-group.full { grid-column: 1/-1; }
+
+  label {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  input, select, textarea {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid var(--border);
+    color: var(--text);
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+    padding: 10px 14px;
+    border-radius: 3px;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  input:focus, select:focus, textarea:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 10px rgba(255,60,110,0.15);
+  }
+  select option { background: #1a1a2e; }
+
+  .time-inputs {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+  .time-inputs input { width: 70px; text-align: center; }
+  .time-sep {
+    font-family: 'Black Ops One', cursive;
+    color: var(--accent);
+    font-size: 1.3rem;
+  }
+
+  .btn-submit {
+    font-family: 'Black Ops One', cursive;
+    font-size: 1rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    padding: 14px 36px;
+    background: var(--accent);
+    color: white;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 0 0 20px rgba(255,60,110,0.3);
+    margin-top: 8px;
+  }
+  .btn-submit:hover {
+    background: #ff5a82;
+    box-shadow: 0 0 30px rgba(255,60,110,0.5);
+    transform: translateY(-1px);
+  }
+  .btn-submit:active { transform: translateY(0); }
+
+  /* LEADERBOARD */
+  .leaderboard-controls {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  .filter-btn {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 7px 16px;
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    border-radius: 2px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .filter-btn:hover { border-color: var(--muted); color: var(--text); }
+  .filter-btn.active {
+    border-color: var(--accent3);
+    color: var(--accent3);
+    box-shadow: 0 0 8px rgba(0,229,255,0.15);
+  }
+
+  .search-input {
+    margin-left: auto;
+    width: 200px;
+    padding: 7px 14px;
+    font-size: 0.85rem;
+  }
+
+  /* TABLE */
+  .lb-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.95rem;
+  }
+
+  .lb-table th {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--muted);
+    padding: 10px 14px;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+    white-space: nowrap;
+    cursor: pointer;
+    user-select: none;
+  }
+  .lb-table th:hover { color: var(--text); }
+  .lb-table th.sorted { color: var(--accent2); }
+
+  .lb-table td {
+    padding: 13px 14px;
+    border-bottom: 1px solid rgba(30,30,48,0.7);
+    vertical-align: middle;
+  }
+
+  .lb-table tr {
+    transition: background 0.15s;
+  }
+  .lb-table tr:hover td { background: rgba(255,60,110,0.04); }
+
+  /* TOP 3 SPECIAL ROWS */
+  .rank-1 td { background: rgba(255,204,0,0.05); }
+  .rank-2 td { background: rgba(192,192,192,0.04); }
+  .rank-3 td { background: rgba(205,127,50,0.04); }
+
+  .rank-badge {
+    font-family: 'Black Ops One', cursive;
+    font-size: 1.1rem;
+    display: inline-block;
+    width: 34px;
+    text-align: center;
+  }
+  .rank-1 .rank-badge { color: var(--accent2); text-shadow: 0 0 10px var(--accent2); }
+  .rank-2 .rank-badge { color: #c0c0c0; }
+  .rank-3 .rank-badge { color: #cd7f32; }
+
+  .player-name {
+    font-weight: 700;
+    letter-spacing: 1px;
+  }
+
+  .time-display {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 1rem;
+    color: var(--accent3);
+  }
+
+  .tier-badge {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.65rem;
+    padding: 3px 8px;
+    border-radius: 2px;
+    letter-spacing: 1px;
+    border: 1px solid;
+    white-space: nowrap;
+  }
+
+  .cat-icon { font-size: 1.1rem; }
+
+  /* TIER COLORS */
+  .tier-S { border-color: #ff3c6e; color: #ff3c6e; background: rgba(255,60,110,0.1); }
+  .tier-A { border-color: #ff8c00; color: #ff8c00; background: rgba(255,140,0,0.1); }
+  .tier-B { border-color: #ffcc00; color: #ffcc00; background: rgba(255,204,0,0.1); }
+  .tier-C { border-color: #00e5ff; color: #00e5ff; background: rgba(0,229,255,0.1); }
+  .tier-D { border-color: #888; color: #888; background: rgba(136,136,136,0.1); }
+
+  /* STATS */
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 16px;
+    margin-bottom: 30px;
+  }
+
+  .stat-card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 20px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.2s;
+  }
+  .stat-card:hover { transform: translateY(-2px); }
+  .stat-card::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 1px;
+  }
+  .stat-card.red::after { background: var(--accent); }
+  .stat-card.yellow::after { background: var(--accent2); }
+  .stat-card.cyan::after { background: var(--accent3); }
+  .stat-card.purple::after { background: #bf5fff; }
+
+  .stat-value {
+    font-family: 'Black Ops One', cursive;
+    font-size: 2rem;
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+  .stat-card.red .stat-value { color: var(--accent); }
+  .stat-card.yellow .stat-value { color: var(--accent2); }
+  .stat-card.cyan .stat-value { color: var(--accent3); }
+  .stat-card.purple .stat-value { color: #bf5fff; }
+
+  .stat-label {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  /* CATEGORIES */
+  .cat-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 14px;
+    margin-bottom: 30px;
+  }
+
+  .cat-card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 18px;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-align: center;
+  }
+  .cat-card:hover {
+    border-color: var(--accent);
+    box-shadow: 0 0 15px rgba(255,60,110,0.1);
+    transform: translateY(-2px);
+  }
+  .cat-card.selected {
+    border-color: var(--accent);
+    background: rgba(255,60,110,0.08);
+  }
+
+  .cat-emoji { font-size: 2rem; display: block; margin-bottom: 8px; }
+  .cat-name {
+    font-family: 'Black Ops One', cursive;
+    font-size: 0.85rem;
+    letter-spacing: 2px;
+    color: var(--text);
+  }
+  .cat-desc {
+    font-size: 0.8rem;
+    color: var(--muted);
+    margin-top: 4px;
+  }
+
+  /* TOAST */
+  .toast {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    background: var(--panel);
+    border: 1px solid var(--accent);
+    color: var(--text);
+    padding: 14px 22px;
+    border-radius: 4px;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.85rem;
+    box-shadow: 0 0 20px rgba(255,60,110,0.3);
+    z-index: 999;
+    animation: slideIn 0.3s ease;
+    display: none;
+  }
+  .toast.show { display: block; }
+  @keyframes slideIn {
+    from { transform: translateX(40px); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+  }
+
+  /* TIMER WIDGET */
+  .timer-widget {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 30px;
+    text-align: center;
+    margin-bottom: 30px;
+    position: relative;
+    overflow: hidden;
+  }
+  .timer-widget::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent3), var(--accent), var(--accent2));
+  }
+
+  .timer-display {
+    font-family: 'Black Ops One', cursive;
+    font-size: clamp(3rem, 10vw, 5.5rem);
+    color: var(--accent3);
+    text-shadow: 0 0 30px rgba(0,229,255,0.5);
+    letter-spacing: 6px;
+    line-height: 1;
+    margin: 20px 0;
+    transition: color 0.3s;
+  }
+  .timer-display.running { animation: pulse-timer 1s infinite; }
+  @keyframes pulse-timer {
+    0%,100% { text-shadow: 0 0 20px rgba(0,229,255,0.4); }
+    50% { text-shadow: 0 0 50px rgba(0,229,255,0.8), 0 0 80px rgba(0,229,255,0.3); }
+  }
+
+  .timer-controls {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .btn {
+    font-family: 'Black Ops One', cursive;
+    letter-spacing: 2px;
+    font-size: 0.9rem;
+    padding: 12px 28px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-transform: uppercase;
+  }
+  .btn-start { background: #00c853; color: #000; box-shadow: 0 0 15px rgba(0,200,83,0.3); }
+  .btn-start:hover { background: #00e676; box-shadow: 0 0 25px rgba(0,200,83,0.5); }
+  .btn-stop { background: var(--accent); color: white; box-shadow: 0 0 15px rgba(255,60,110,0.3); }
+  .btn-stop:hover { box-shadow: 0 0 25px rgba(255,60,110,0.5); }
+  .btn-reset { background: transparent; color: var(--muted); border: 1px solid var(--border); }
+  .btn-reset:hover { color: var(--text); border-color: var(--muted); }
+
+  .timer-status {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.8rem;
+    color: var(--muted);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+
+  /* EMPTY STATE */
+  .empty-state {
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--muted);
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.85rem;
+    letter-spacing: 2px;
+  }
+  .empty-state .big { font-size: 3rem; display: block; margin-bottom: 12px; }
+
+  /* NO RESULTS */
+  .no-results {
+    text-align: center;
+    padding: 40px;
+    color: var(--muted);
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.8rem;
+    letter-spacing: 2px;
+  }
+
+  /* PROGRESS BAR */
+  .progress-row {
+    margin: 6px 0;
+  }
+  .progress-label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.8rem;
+    margin-bottom: 3px;
+    color: var(--muted);
+  }
+  .progress-bar {
+    height: 4px;
+    background: var(--border);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    border-radius: 2px;
+    transition: width 0.8s ease;
+  }
+
+  .tier-info {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 20px;
+    margin-bottom: 20px;
+  }
+
+  .tier-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 10px;
+    margin-top: 14px;
+  }
+  .tier-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 12px;
+    background: rgba(255,255,255,0.02);
+    border-radius: 3px;
+  }
+  .tier-item .tier-badge { font-size: 0.8rem; }
+  .tier-item-info { font-size: 0.82rem; color: var(--muted); }
+
+  .scroll-table { overflow-x: auto; }
+
+  /* MINI CHART */
+  .chart-bars {
+    display: flex;
+    align-items: flex-end;
+    gap: 4px;
+    height: 60px;
+    padding-top: 8px;
+  }
+  .chart-bar {
+    flex: 1;
+    background: linear-gradient(180deg, var(--accent), rgba(255,60,110,0.3));
+    border-radius: 2px 2px 0 0;
+    min-height: 4px;
+    transition: all 0.3s;
+    cursor: pointer;
+    position: relative;
+  }
+  .chart-bar:hover { filter: brightness(1.3); }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">FapFap<span>.</span>Factory</div>
+  <div class="tagline">// Ranked Endurance Challenge System v1.0 //</div>
+  <div class="badges">
+    <span class="badge red">⚡ Live Rankings</span>
+    <span class="badge yellow">🏆 5 Tiers</span>
+    <span class="badge cyan">⏱ Timer intégré</span>
+  </div>
+</header>
+
+<main>
+  <div class="tabs">
+    <button class="tab-btn active" onclick="switchTab('classement')">🏆 Classement</button>
+    <button class="tab-btn" onclick="switchTab('soumettre')">➕ Soumettre</button>
+    <button class="tab-btn" onclick="switchTab('timer')">⏱ Timer</button>
+    <button class="tab-btn" onclick="switchTab('stats')">📊 Stats</button>
+  </div>
+
+  <!-- CLASSEMENT -->
+  <div id="tab-classement" class="tab-panel active">
+    <div class="section-title">⚡ Leaderboard Général</div>
+
+    <div class="leaderboard-controls">
+      <button class="filter-btn active" onclick="filterCat('all', this)">Tout</button>
+      <button class="filter-btn" onclick="filterCat('marathon', this)">🐢 Marathon</button>
+      <button class="filter-btn" onclick="filterCat('speedrun', this)">⚡ Speedrun</button>
+      <button class="filter-btn" onclick="filterCat('challenge', this)">💀 Challenge</button>
+      <input type="text" class="search-input" placeholder="Rechercher..." oninput="searchPlayers(this.value)">
+    </div>
+
+    <div class="scroll-table">
+      <table class="lb-table">
+        <thead>
+          <tr>
+            <th onclick="sortTable('rank')" class="sorted"># <span id="sort-rank">↑</span></th>
+            <th onclick="sortTable('name')">Joueur</th>
+            <th onclick="sortTable('time')">Temps ⏱</th>
+            <th>Catégorie</th>
+            <th onclick="sortTable('tier')">Tier</th>
+            <th>Date</th>
+          </tr>
+        </thead>
+        <tbody id="lb-tbody">
+          <!-- Filled by JS -->
+        </tbody>
+      </table>
+    </div>
+    <div id="lb-empty" class="empty-state" style="display:none">
+      <span class="big">🏜️</span>
+      AUCUN RÉSULTAT TROUVÉ
+    </div>
+  </div>
+
+  <!-- SOUMETTRE -->
+  <div id="tab-soumettre" class="tab-panel">
+    <div class="section-title">➕ Soumettre un Score</div>
+
+    <div class="form-card">
+      <div class="form-grid">
+        <div class="form-group">
+          <label>Pseudo</label>
+          <input type="text" id="inp-name" placeholder="ex: DarkVador69" maxlength="20">
+        </div>
+        <div class="form-group">
+          <label>Catégorie</label>
+          <select id="inp-cat">
+            <option value="marathon">🐢 Marathon (le plus long)</option>
+            <option value="speedrun">⚡ Speedrun (le plus rapide)</option>
+            <option value="challenge">💀 Challenge (mode extrême)</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Temps — Min : Sec</label>
+          <div class="time-inputs">
+            <input type="number" id="inp-min" min="0" max="999" placeholder="00" value="">
+            <span class="time-sep">:</span>
+            <input type="number" id="inp-sec" min="0" max="59" placeholder="00" value="">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Conditions (optionnel)</label>
+          <input type="text" id="inp-conditions" placeholder="ex: Yeux fermés, main non-dominante...">
+        </div>
+        <div class="form-group full" style="align-items:flex-start;">
+          <button class="btn-submit" onclick="submitScore()">⚡ SOUMETTRE</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-title">🗂️ Catégories</div>
+    <div class="cat-grid">
+      <div class="cat-card selected" onclick="selectCat(this,'marathon')">
+        <span class="cat-emoji">🐢</span>
+        <div class="cat-name">Marathon</div>
+        <div class="cat-desc">Le plus longtemps possible. Endurance maximale.</div>
+      </div>
+      <div class="cat-card" onclick="selectCat(this,'speedrun')">
+        <span class="cat-emoji">⚡</span>
+        <div class="cat-name">Speedrun</div>
+        <div class="cat-desc">Le plus vite possible. Efficacité absolue.</div>
+      </div>
+      <div class="cat-card" onclick="selectCat(this,'challenge')">
+        <span class="cat-emoji">💀</span>
+        <div class="cat-name">Challenge</div>
+        <div class="cat-desc">Conditions handicap. Difficulté maximale.</div>
+      </div>
+    </div>
+
+    <div class="section-title">🎖️ Système de Tiers</div>
+    <div class="tier-info">
+      <div style="color:var(--muted);font-family:'Share Tech Mono',monospace;font-size:0.75rem;letter-spacing:2px;">MARATHON — basé sur la durée</div>
+      <div class="tier-list" id="tier-list-marathon">
+        <div class="tier-item"><span class="tier-badge tier-S">S</span><div class="tier-item-info">+60 min</div></div>
+        <div class="tier-item"><span class="tier-badge tier-A">A</span><div class="tier-item-info">30–60 min</div></div>
+        <div class="tier-item"><span class="tier-badge tier-B">B</span><div class="tier-item-info">15–30 min</div></div>
+        <div class="tier-item"><span class="tier-badge tier-C">C</span><div class="tier-item-info">5–15 min</div></div>
+        <div class="tier-item"><span class="tier-badge tier-D">D</span><div class="tier-item-info">&lt; 5 min</div></div>
+      </div>
+      <div style="color:var(--muted);font-family:'Share Tech Mono',monospace;font-size:0.75rem;letter-spacing:2px;margin-top:14px;">SPEEDRUN — plus rapide = meilleur</div>
+      <div class="tier-list">
+        <div class="tier-item"><span class="tier-badge tier-S">S</span><div class="tier-item-info">&lt; 30 sec</div></div>
+        <div class="tier-item"><span class="tier-badge tier-A">A</span><div class="tier-item-info">30s – 2 min</div></div>
+        <div class="tier-item"><span class="tier-badge tier-B">B</span><div class="tier-item-info">2–5 min</div></div>
+        <div class="tier-item"><span class="tier-badge tier-C">C</span><div class="tier-item-info">5–15 min</div></div>
+        <div class="tier-item"><span class="tier-badge tier-D">D</span><div class="tier-item-info">+15 min</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TIMER -->
+  <div id="tab-timer" class="tab-panel">
+    <div class="section-title">⏱ Timer Officiel</div>
+    <div class="timer-widget">
+      <div class="timer-status" id="timer-status">EN ATTENTE</div>
+      <div class="timer-display" id="timer-display">00:00:00</div>
+      <div class="timer-controls">
+        <button class="btn btn-start" id="btn-start" onclick="startTimer()">▶ START</button>
+        <button class="btn btn-stop" id="btn-stop" onclick="stopTimer()" disabled style="opacity:0.4">■ STOP</button>
+        <button class="btn btn-reset" onclick="resetTimer()">↺ RESET</button>
+      </div>
+      <div style="margin-top:20px;font-family:'Share Tech Mono',monospace;font-size:0.72rem;color:var(--muted);letter-spacing:2px;" id="timer-result"></div>
+    </div>
+
+    <div class="section-title">📋 Enregistrement Rapide</div>
+    <div class="form-card">
+      <div class="form-grid">
+        <div class="form-group">
+          <label>Pseudo</label>
+          <input type="text" id="timer-name" placeholder="Ton pseudo">
+        </div>
+        <div class="form-group">
+          <label>Catégorie</label>
+          <select id="timer-cat">
+            <option value="marathon">🐢 Marathon</option>
+            <option value="speedrun">⚡ Speedrun</option>
+            <option value="challenge">💀 Challenge</option>
+          </select>
+        </div>
+        <div class="form-group full">
+          <button class="btn-submit" onclick="submitFromTimer()">⚡ ENREGISTRER CE TEMPS</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- STATS -->
+  <div id="tab-stats" class="tab-panel">
+    <div class="section-title">📊 Statistiques Globales</div>
+    <div class="stats-grid" id="stats-grid">
+      <!-- Filled by JS -->
+    </div>
+    <div class="section-title">📈 Distribution par Catégorie</div>
+    <div id="cat-stats" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;margin-bottom:30px;"></div>
+    <div class="section-title">🎖️ Top par Tier</div>
+    <div id="tier-stats" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;"></div>
+  </div>
+</main>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ─── DATA ─────────────────────────────────────────────────────────
+const STORAGE_KEY = 'fapfap_scores_v1';
+
+const DEFAULT_SCORES = [
+  { id: 1, name: 'LégendeSombre', time: 5834, cat: 'marathon', conditions: 'Main gauche', date: '2026-04-22' },
+  { id: 2, name: 'QuantumFap', time: 4210, cat: 'marathon', conditions: '', date: '2026-05-01' },
+  { id: 3, name: 'NightOwl_X', time: 3655, cat: 'marathon', conditions: 'Yeux fermés', date: '2026-05-03' },
+  { id: 4, name: 'TurboRapide', time: 18, cat: 'speedrun', conditions: 'Mode no-look', date: '2026-04-30' },
+  { id: 5, name: 'FlashMcFap', time: 42, cat: 'speedrun', conditions: '', date: '2026-05-05' },
+  { id: 6, name: 'Débutant007', time: 95, cat: 'speedrun', conditions: '', date: '2026-05-08' },
+  { id: 7, name: 'IronWill', time: 2890, cat: 'challenge', conditions: 'Main non-dom + debout', date: '2026-05-02' },
+  { id: 8, name: 'ZenMaster', time: 1200, cat: 'challenge', conditions: 'Musique clasique', date: '2026-05-07' },
+  { id: 9, name: 'Rookie2026', time: 410, cat: 'marathon', conditions: '', date: '2026-05-10' },
+  { id: 10, name: 'NoHandsPro', time: 3020, cat: 'marathon', conditions: '', date: '2026-05-09' },
+];
+
+function loadScores() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    return raw ? JSON.parse(raw) : [...DEFAULT_SCORES];
+  } catch { return [...DEFAULT_SCORES]; }
+}
+
+function saveScores(scores) {
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(scores)); } catch {}
+}
+
+let scores = loadScores();
+if (scores.length === 0) scores = [...DEFAULT_SCORES];
+
+// ─── TIERS ────────────────────────────────────────────────────────
+function getTier(time, cat) {
+  if (cat === 'speedrun') {
+    if (time < 30) return 'S';
+    if (time < 120) return 'A';
+    if (time < 300) return 'B';
+    if (time < 900) return 'C';
+    return 'D';
+  } else {
+    // marathon & challenge: longer = better
+    if (time >= 3600) return 'S';
+    if (time >= 1800) return 'A';
+    if (time >= 900) return 'B';
+    if (time >= 300) return 'C';
+    return 'D';
+  }
+}
+
+function fmtTime(secs) {
+  const h = Math.floor(secs / 3600);
+  const m = Math.floor((secs % 3600) / 60);
+  const s = secs % 60;
+  if (h > 0) return `${String(h).padStart(2,'0')}h${String(m).padStart(2,'0')}m${String(s).padStart(2,'0')}s`;
+  return `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+}
+
+function catIcon(cat) {
+  return { marathon: '🐢', speedrun: '⚡', challenge: '💀' }[cat] || '❓';
+}
+
+function catLabel(cat) {
+  return { marathon: 'Marathon', speedrun: 'Speedrun', challenge: 'Challenge' }[cat] || cat;
+}
+
+// ─── SORT ─────────────────────────────────────────────────────────
+let currentSort = 'rank';
+let sortAsc = true;
+let currentFilter = 'all';
+let searchQuery = '';
+
+function getSortedFiltered() {
+  let list = [...scores];
+  if (currentFilter !== 'all') list = list.filter(s => s.cat === currentFilter);
+  if (searchQuery) list = list.filter(s => s.name.toLowerCase().includes(searchQuery.toLowerCase()));
+
+  list.sort((a, b) => {
+    if (currentSort === 'time') {
+      return sortAsc ? a.time - b.time : b.time - a.time;
+    }
+    if (currentSort === 'name') {
+      return sortAsc ? a.name.localeCompare(b.name) : b.name.localeCompare(a.name);
+    }
+    if (currentSort === 'tier') {
+      const order = { S:0,A:1,B:2,C:3,D:4 };
+      const ta = order[getTier(a.time, a.cat)];
+      const tb = order[getTier(b.time, b.cat)];
+      return sortAsc ? ta - tb : tb - ta;
+    }
+    // default: rank by performance
+    if (a.cat === 'speedrun' && b.cat === 'speedrun') return sortAsc ? a.time - b.time : b.time - a.time;
+    return sortAsc ? b.time - a.time : a.time - b.time;
+  });
+  return list;
+}
+
+function renderLeaderboard() {
+  const list = getSortedFiltered();
+  const tbody = document.getElementById('lb-tbody');
+  const empty = document.getElementById('lb-empty');
+
+  if (list.length === 0) {
+    tbody.innerHTML = '';
+    empty.style.display = 'block';
+    return;
+  }
+  empty.style.display = 'none';
+
+  tbody.innerHTML = list.map((s, i) => {
+    const rank = i + 1;
+    const tier = getTier(s.time, s.cat);
+    const rankStr = rank === 1 ? '👑' : rank === 2 ? '🥈' : rank === 3 ? '🥉' : `#${rank}`;
+    const rowClass = rank <= 3 ? `rank-${rank}` : '';
+    return `<tr class="${rowClass}">
+      <td><span class="rank-badge">${rankStr}</span></td>
+      <td><span class="player-name">${escHtml(s.name)}</span>${s.conditions ? `<br><span style="font-size:0.75rem;color:var(--muted)">${escHtml(s.conditions)}</span>` : ''}</td>
+      <td><span class="time-display">${fmtTime(s.time)}</span></td>
+      <td><span class="cat-icon">${catIcon(s.cat)}</span> ${catLabel(s.cat)}</td>
+      <td><span class="tier-badge tier-${tier}">${tier}</span></td>
+      <td style="color:var(--muted);font-size:0.82rem;font-family:'Share Tech Mono',monospace">${s.date}</td>
+    </tr>`;
+  }).join('');
+}
+
+function sortTable(col) {
+  if (currentSort === col) sortAsc = !sortAsc;
+  else { currentSort = col; sortAsc = true; }
+  renderLeaderboard();
+}
+
+function filterCat(cat, btn) {
+  currentFilter = cat;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderLeaderboard();
+}
+
+function searchPlayers(q) {
+  searchQuery = q;
+  renderLeaderboard();
+}
+
+// ─── SUBMIT ───────────────────────────────────────────────────────
+function submitScore() {
+  const name = document.getElementById('inp-name').value.trim();
+  const cat = document.getElementById('inp-cat').value;
+  const min = parseInt(document.getElementById('inp-min').value) || 0;
+  const sec = parseInt(document.getElementById('inp-sec').value) || 0;
+  const cond = document.getElementById('inp-conditions').value.trim();
+
+  if (!name) { showToast('❌ Rentre ton pseudo !'); return; }
+  const totalSec = min * 60 + sec;
+  if (totalSec <= 0) { showToast('❌ Temps invalide !'); return; }
+  if (name.length < 2) { showToast('❌ Pseudo trop court !'); return; }
+
+  const score = {
+    id: Date.now(),
+    name, time: totalSec, cat,
+    conditions: cond,
+    date: new Date().toISOString().split('T')[0]
+  };
+  scores.push(score);
+  saveScores(scores);
+  renderLeaderboard();
+  renderStats();
+
+  const tier = getTier(totalSec, cat);
+  showToast(`✅ Score enregistré ! Tier ${tier} • ${fmtTime(totalSec)}`);
+
+  document.getElementById('inp-name').value = '';
+  document.getElementById('inp-min').value = '';
+  document.getElementById('inp-sec').value = '';
+  document.getElementById('inp-conditions').value = '';
+
+  switchTab('classement');
+}
+
+function selectCat(el, cat) {
+  document.querySelectorAll('.cat-card').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+  document.getElementById('inp-cat').value = cat;
+}
+
+// ─── TIMER ────────────────────────────────────────────────────────
+let timerInterval = null;
+let timerSeconds = 0;
+let timerRunning = false;
+
+function updateTimerDisplay() {
+  const h = Math.floor(timerSeconds / 3600);
+  const m = Math.floor((timerSeconds % 3600) / 60);
+  const s = timerSeconds % 60;
+  document.getElementById('timer-display').textContent =
+    `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+}
+
+function startTimer() {
+  if (timerRunning) return;
+  timerRunning = true;
+  document.getElementById('timer-status').textContent = '🔴 EN COURS...';
+  document.getElementById('timer-display').classList.add('running');
+  document.getElementById('btn-start').disabled = true;
+  document.getElementById('btn-start').style.opacity = '0.4';
+  document.getElementById('btn-stop').disabled = false;
+  document.getElementById('btn-stop').style.opacity = '1';
+  document.getElementById('timer-result').textContent = '';
+  timerInterval = setInterval(() => {
+    timerSeconds++;
+    updateTimerDisplay();
+  }, 1000);
+}
+
+function stopTimer() {
+  if (!timerRunning) return;
+  clearInterval(timerInterval);
+  timerRunning = false;
+  document.getElementById('timer-status').textContent = '⏹ ARRÊTÉ';
+  document.getElementById('timer-display').classList.remove('running');
+  document.getElementById('btn-start').disabled = false;
+  document.getElementById('btn-start').style.opacity = '1';
+  document.getElementById('btn-stop').disabled = true;
+  document.getElementById('btn-stop').style.opacity = '0.4';
+  document.getElementById('timer-result').textContent = `Temps enregistré : ${fmtTime(timerSeconds)} — Remplis le formulaire ci-dessous pour soumettre !`;
+}
+
+function resetTimer() {
+  clearInterval(timerInterval);
+  timerRunning = false;
+  timerSeconds = 0;
+  updateTimerDisplay();
+  document.getElementById('timer-status').textContent = 'EN ATTENTE';
+  document.getElementById('timer-display').classList.remove('running');
+  document.getElementById('btn-start').disabled = false;
+  document.getElementById('btn-start').style.opacity = '1';
+  document.getElementById('btn-stop').disabled = true;
+  document.getElementById('btn-stop').style.opacity = '0.4';
+  document.getElementById('timer-result').textContent = '';
+}
+
+function submitFromTimer() {
+  if (timerSeconds <= 0) { showToast('❌ Lance le timer d\'abord !'); return; }
+  if (timerRunning) { showToast('⚠️ Stop le timer d\'abord !'); return; }
+  const name = document.getElementById('timer-name').value.trim();
+  const cat = document.getElementById('timer-cat').value;
+  if (!name) { showToast('❌ Rentre ton pseudo !'); return; }
+
+  const score = {
+    id: Date.now(),
+    name, time: timerSeconds, cat,
+    conditions: 'Via Timer',
+    date: new Date().toISOString().split('T')[0]
+  };
+  scores.push(score);
+  saveScores(scores);
+  renderLeaderboard();
+  renderStats();
+
+  const tier = getTier(timerSeconds, cat);
+  showToast(`✅ Score enregistré ! Tier ${tier} • ${fmtTime(timerSeconds)}`);
+  resetTimer();
+  switchTab('classement');
+}
+
+// ─── STATS ────────────────────────────────────────────────────────
+function renderStats() {
+  const total = scores.length;
+  const times = scores.map(s => s.time);
+  const avg = total ? Math.round(times.reduce((a,b)=>a+b,0)/total) : 0;
+  const max = total ? Math.max(...times) : 0;
+  const min = total ? Math.min(...times) : 0;
+  const sCount = scores.filter(s => getTier(s.time,s.cat)==='S').length;
+
+  document.getElementById('stats-grid').innerHTML = `
+    <div class="stat-card red">
+      <div class="stat-value">${total}</div>
+      <div class="stat-label">Scores Totaux</div>
+    </div>
+    <div class="stat-card yellow">
+      <div class="stat-value">${fmtTime(avg)}</div>
+      <div class="stat-label">Temps Moyen</div>
+    </div>
+    <div class="stat-card cyan">
+      <div class="stat-value">${fmtTime(max)}</div>
+      <div class="stat-label">Record Marathon</div>
+    </div>
+    <div class="stat-card purple">
+      <div class="stat-value">${sCount}</div>
+      <div class="stat-label">Joueurs Tier S</div>
+    </div>
+  `;
+
+  const cats = ['marathon','speedrun','challenge'];
+  document.getElementById('cat-stats').innerHTML = cats.map(cat => {
+    const catScores = scores.filter(s => s.cat === cat);
+    const total = catScores.length;
+    const avgT = total ? Math.round(catScores.map(s=>s.time).reduce((a,b)=>a+b,0)/total) : 0;
+    const topScore = catScores.sort((a,b)=> cat==='speedrun'?a.time-b.time:b.time-a.time)[0];
+    return `<div style="background:var(--panel);border:1px solid var(--border);border-radius:4px;padding:20px;">
+      <div style="font-family:'Black Ops One';font-size:1.1rem;margin-bottom:12px;">${catIcon(cat)} ${catLabel(cat)}</div>
+      <div style="font-size:0.85rem;color:var(--muted);margin-bottom:6px;">Participants : <strong style="color:var(--text)">${total}</strong></div>
+      <div style="font-size:0.85rem;color:var(--muted);margin-bottom:6px;">Temps moyen : <strong style="color:var(--accent3)">${fmtTime(avgT)}</strong></div>
+      ${topScore ? `<div style="font-size:0.85rem;color:var(--muted);">🥇 Leader : <strong style="color:var(--accent2)">${escHtml(topScore.name)}</strong> — ${fmtTime(topScore.time)}</div>` : ''}
+    </div>`;
+  }).join('');
+
+  const tierOrder = ['S','A','B','C','D'];
+  document.getElementById('tier-stats').innerHTML = tierOrder.map(t => {
+    const count = scores.filter(s => getTier(s.time,s.cat)===t).length;
+    const pct = total ? Math.round(count/total*100) : 0;
+    return `<div style="background:var(--panel);border:1px solid var(--border);border-radius:4px;padding:16px;text-align:center;">
+      <span class="tier-badge tier-${t}" style="font-size:1rem;padding:6px 14px;">${t}</span>
+      <div style="font-family:'Black Ops One';font-size:1.8rem;margin:10px 0;">${count}</div>
+      <div style="font-family:'Share Tech Mono';font-size:0.65rem;color:var(--muted);letter-spacing:2px;">${pct}% DES JOUEURS</div>
+      <div class="progress-bar" style="margin-top:10px;"><div class="progress-fill" style="width:${pct}%;background:var(--accent);"></div></div>
+    </div>`;
+  }).join('');
+}
+
+// ─── TABS ─────────────────────────────────────────────────────────
+function switchTab(id) {
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + id).classList.add('active');
+  document.querySelectorAll('.tab-btn').forEach(b => {
+    if (b.getAttribute('onclick').includes("'" + id + "'")) b.classList.add('active');
+  });
+  if (id === 'stats') renderStats();
+}
+
+// ─── TOAST ────────────────────────────────────────────────────────
+let toastTimeout;
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toastTimeout);
+  toastTimeout = setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+function escHtml(str) {
+  return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// ─── INIT ─────────────────────────────────────────────────────────
+renderLeaderboard();
+renderStats();
+</script>
+</body>
+</html>
