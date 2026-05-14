@@ -1,0 +1,19 @@
+{
+  "name": "fapfap-factory",
+  "version": "1.0.0",
+  "description": "FapFap Factory – Endurance Ranked System",
+  "private": true,
+  "scripts": {
+    "dev": "netlify dev"
+  },
+  "dependencies": {
+    "faunadb": "^4.8.0",
+    "firebase-admin": "^12.0.0"
+  },
+  "devDependencies": {
+    "netlify-cli": "^17.0.0"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

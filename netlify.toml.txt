@@ -1,0 +1,28 @@
+[build]
+  publish = "."
+  functions = "netlify/functions"
+
+[functions]
+  node_bundler = "esbuild"
+
+# Redirect /api/* → Netlify Functions
+[[redirects]]
+  from   = "/api/get-scores"
+  to     = "/.netlify/functions/get-scores"
+  status = 200
+
+[[redirects]]
+  from   = "/api/add-score"
+  to     = "/.netlify/functions/add-score"
+  status = 200
+
+# SPA fallback
+[[redirects]]
+  from   = "/*"
+  to     = "/index.html"
+  status = 200
+
+[dev]
+  command   = "echo 'Dev mode'"
+  port      = 8888
+  autoLaunch = false
